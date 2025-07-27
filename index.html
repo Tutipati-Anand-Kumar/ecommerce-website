@@ -4,11 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <a href="login">Login</a>
-    <a href="register">Register</a>
+    <a href="/login">Log_in</a>
+    <a href="/register">Register</a>
 
+    <div class="registerForm">
+        <form action="">
+            <div>
+                <h1>Register</h1>
+            </div>
+                <div>
+                    <input type="text" name="name" placeholder="Name">
+                    <span><i class="fa-solid fa-signature"></i></span>
+                </div>
+
+                 <div>
+                    <input type="email" name="email" placeholder="Email">
+                    <span><i class="fa-solid fa-envelope"></i></span>
+                </div>
+
+                 <div>
+                    <input type="password" name="password" placeholder="Password">
+                    <span><i class="fa-solid fa-lock"></i></span>
+                </div>
+
+                 <div>
+                    <input type="password" name="Re-Password" placeholder="Re enter Password" >
+                    <span><i class="fa-solid fa-key"></i></span>
+                </div> 
+
+                <div>
+                    <textarea name="address" placeholder="Address" ></textarea>
+                    <span><i class="fa-solid fa-location-dot"></i></span>
+                </div>
+
+                <div>
+                    <input type="file" accept=".png, .jpg, .jpeg" name = "image">
+                </div>
+                <div >
+                 <button type="submit">Submit</button>
+                </div>
+                
+        </form>
+</div>
     
     <div id="root"></div>
     <script src="./index.js" type="module"></script>
