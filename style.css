@@ -8,6 +8,9 @@ body{
     width: 100vw;
     /* background-color: aqua; */
 }
+::-webkit-scrollbar{
+    display: none;
+}
 #root{
     height: 100%;
     width: 100%;
@@ -44,6 +47,7 @@ body{
     padding: 0px 10px;
     border-bottom: 4px solid #111;
 }
+
 .registerForm>form>div:first-child,.registerForm>form>div:nth-child(7), .registerForm>form>div:nth-child(8){
     border: none;
 }
@@ -87,7 +91,7 @@ body{
 }
 .loginForm>form{
     height: 40%;
-    width: 30%;
+    width: 40%;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -125,28 +129,16 @@ body{
 }
 
 @media screen and (max-width:1240px){
-    .registerForm{
-        width: 100%;
+    .registerForm>form{
+        width: 40%;
     }
 }
 
-@media screen and (max-width:976px){
+@media screen and (max-width:768px){
     .registerForm>form{
         width: 80%;
-    }
-    .registerForm>form>input{
-        width: 70%;
-    }
-}
-
-@media screen and (max-width:440px){
-    .registerForm>form{
-        width: 80%;
-    }
-    .registerForm>form>input{
-        width: 90%;
     }
      .registerForm>form>input[type="file"]::file-selector-button{
-        width: -100px;
+        width: 40%;
     }
 }

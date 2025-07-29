@@ -1,79 +1,103 @@
-import login from './login.js'
-import register from './register.js';
-const root = document.getElementById("root")
-//console.log(root)
-const Anchors = document.querySelectorAll("a");
+import login from "./login.js"
+import register from "./register.js"
 
-const router = {
-    '/login':login,
-    '/register':register
-}
-function handleClick(e){
-    e.preventDefault()
-    let path = e.target.pathname
-    // console.log(path)
-    history.pushState(null, "", `${path}`)
-    root.innerHTML = router[path]()
+const root=document.getElementById('root')
+const allAnchors=document.querySelectorAll('a')
+
+const router={
+    "/login":login,
+    "/register":register
 }
 
-Anchors.forEach((anchor)=>{
-    anchor.addEventListener('click',handleClick)
+function handelClick(e){
+  e.preventDefault()
+//   console.log(e.target.pathname);
+let path=e.target.pathname
+  history.pushState(null,"",`${path}`)
+root.innerHTML=router[path]()
+}
+allAnchors.forEach((anchor)=>{
+    anchor.addEventListener("click",handelClick)
 })
 
-window.addEventListener('popstate', (e)=>{
-    // console.log(e.target)
-    console.log(location)
-    let path = location.pathname
-    if (path == "/index.html"){
-        root.innerHTML=""
-    }else{
-    root.innerHTML = router[path]()
-    }
-
+window.addEventListener('popstate',(e)=>{
+  // console.log(location);
+  let path=location.pathname
+if(path=="/index.html"){
+root.innerHTML=""
+}else{
+  root.innerHTML=router[path]()
+}
+  
 })
 
-const State = {
-    setState(name, value){
-        this[name] = value 
-    }
+
+const state={
+  setState(name,value){
+    this[name]=value
+  }
+}
+const form=document.querySelector('form')
+const inputs=document.querySelectorAll('input')
+const textArea=document.querySelector('textarea')
+
+function handelChnage(e){
+let {name,value,files}=e.target
+  if(name=="image"){
+value=files[0]
+const reader=new FileReader()
+reader.onload=function(){
+  form.style.backgroundImage=`url(${reader.result})`
+  form.style.backgroundSize = "100% 100%"
+}
+reader.readAsDataURL(value)
+state.setState(name,value)
+  }else{
+  state.setState(name,value)
+
+  }
 }
 
-const form = document.querySelector("form");
-const inputs = document.querySelectorAll("input");
-const textArea = document.querySelector("textarea");
+function checkPasssword(e){
+ let {name,value}=e.target
+  if(name=="re-password"){
+// console.log(e.target.parentElement);
 
-
-function handleChage(e){
-    let {name, value, files} = e.target
-    if (name != "re-password"){
-        if (name== "image"){
-            value = files[0]
-   
-      value = e.target.files[0];
-      if (value instanceof Blob) {
-        const reader = new FileReader();
-        reader.onload = function () {
-        form.style.backgroundImage = `url(${reader.result})`
-        };
-        reader.readAsDataURL(value);
-      } else {
-        console.log("No valid file selected.");
-      }
-            State.setState(name, value)
-        }else{
-            State.setState(name, value)
-        }
-    }
+    state.password!=value?e.target.parentElement.style.borderBottom="3px solid red":e.target.parentElement.style.borderBottom="3px solid black"
+  }else{
+    return
+  }
 }
 
-function handleSubmit(e){
-    e.preventDefault()
-    console.log(State)
+function handelSubmit(e){
+e.preventDefault()
+// console.log(state);
+let {name, email, password, image, address}=state
+if(!name||!email||!password||!image||!address){
+  alert("All Feilds are mandatory")
+  return
 }
 
-form.addEventListener("submit", handleSubmit)
-inputs.forEach((input)=>{
-    input.addEventListener("change",handleChage)
-    
+console.log(password,state);
+if(password!=state["re-password"]){
+  
+  alert("password and re-passsword should match")
+  return
+}
+// console.log(state);
+
+let payload={name, email, password, image, address}
+console.log(payload);
+
+
+}
+
+form.addEventListener('submit',handelSubmit)
+inputs.forEach(input=>{
+  input.addEventListener('change',handelChnage)
 })
-textArea.addEventListener("change", handleChage)
+
+inputs.forEach(input=>{
+  input.addEventListener('input',checkPasssword)
+})
+textArea.addEventListener('change',handelChnage)

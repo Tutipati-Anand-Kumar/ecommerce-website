@@ -6,7 +6,7 @@ const login = () =>{
                 <h1>Login</h1>
             </div>
                  <div>
-                    <input type="email" name="email" placeholder="Email">
+                    <input type="email" name="email" placeholder="email">
                     <span><i class="fa-solid fa-envelope"></i></span>
                 </div>
 
