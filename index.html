@@ -8,48 +8,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-<a href="login">Login</a>
-<a href="register">Register</a>
-<div class="registerForm">
-    <form action="">
-        <div>
-            <h1>Register</h1>
+<a href="/login">Login</a>
+<a href="/register">Register</a>
+        <div class="inp">
+                    <span><i class="fa-solid fa-magnifying-glass"></i></span>
+                    <input type="text" placeholder="Search Products" class="in">
         </div>
-        <div>
-            <input type="text" name="name" placeholder="Name">
-            <span><i class="fa-solid fa-signature"></i></span>
-        </div>
-        <div>
-            <input type="email" name="email" placeholder="email">
-            <span><i class="fa-solid fa-envelope"></i></span>
-        </div>
-        <div>
-            <input type="password" name="password" placeholder="password" pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%&*])[A-Za-z\d!@#$%&*]{8,}$">
-            <span><i class="fa-solid fa-key"></i></span>
-        </div>
-         <div>
-            <input type="password" name="re-password" placeholder="re-password">
-            <span>
+        <div class="products"></div>
 
-          
-                <i class="fa-solid fa-repeat"></i>
-            </span>
-        </div>
-        <div>
-            <textarea name="address" placeholder="address"></textarea>
-            <span><i class="fa-solid fa-location-dot"></i></span>
-        </div>
-        <div>
-            <input type="file" accept="image/*"  name="image">
-        </div>
-
-        <div>
-           <button>Submit</button>
-        </div>
-    </form>
-</div>
 
 <div id="root"></div>
 <script src="./index.js" type="module"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
 </body>
 </html>
