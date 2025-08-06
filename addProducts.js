@@ -1,166 +1,155 @@
-import home  from "./home.js"
+import home, { updateCartCount } from "./home.js";
+import renderContent from "./index.js"
+
 let addProduct = () => {
-  return `
-  <div class="registerForm">
-        <form action="" >
-            <div>
-                <h1>Add Products</h1>
-            </div>
-        
-            <div>
-                <input type="text" name="title" placeholder="Title">
-                <i class="fa-solid fa-heading"></i>
-            </div>
-            <div>
-                <input type="number" name="price" placeholder="price">
-                <i class="fa-solid fa-hand-holding-dollar"></i>
-            </div>
-            
-            <div class="category-section">
-                <select name="category">
-                        <option value="selectCategory" selected disabled >Select category</option>
-                        <option value="electronics" >Electronics</option>
-                        <option value="mensWear" >Mens Wear</option>
-                        <option value="womensWear" >Womens wear</option>
-                        <option value="kids" >Kids</option>
-                </select>
-            </div>
-            <div>
-                <textarea name="description" placeholder="Type Description of a Product"></textarea>
-                <i class="fa-solid fa-audio-description"></i>
-            </div>
+    return `
+        <div class="form-container">
+            <form class="add-product-form">
+                <h2>Add Product</h2>
+                <div class="form-group">
+                    <input type="text" name="title" placeholder="Product Title" required>
+                    <i class="fa-solid fa-heading"></i>
+                </div>
+                <div class="form-group">
+                    <input type="number" name="price" placeholder="Product Price" min="1" required>
+                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                </div>
+                <div class="form-group">
+                    <select name="category" required>
+                        <option value="" disabled selected>Select category</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="mensWear">Mens Wear</option>
+                        <option value="womensWear">Womens wear</option>
+                        <option value="kids">Kids</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <textarea name="description" placeholder="Product Description" required></textarea>
+                    <i class="fa-solid fa-audio-description"></i>
+                </div>
+                <div class="form-group file-input-group">
+                    <label for="product-image">Product Image:</label>
+                    <input type="file" id="product-image" accept=".jpg, .png, .jpeg" name="image" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" id="add-product-submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    `;
+};
 
-            <div class="removeBorder">
-                <input type="file" accept=".jpg, .png, .jpeg" name="image">
-            </div>
-        </form>
-    </div>
-    
-    `
-}
+export const handleProductBind = () => {
+    const root = document.getElementById('root');
+    const form = document.querySelector('.add-product-form');
+    const h2 = document.querySelector("h2")
+    const btn = document.querySelector("#add-product-submit")
 
+    if (!form) return;
 
-export let handleProductBind=()=>{
-    let state={
-  setState(name, value){
-    this[name] = value
-  } 
-}
+    const inputs = form.querySelectorAll('input, select, textarea');
+    let state = {};
 
-const inputs = document.querySelectorAll("input");
-const form = document.querySelector("form");
-const textArea = document.querySelector("textarea");
-const select = document.querySelector("select");
+   const handleChange = (e) => {
+    let { name, value, files } = e.target;
 
-function handleChange(e){
-  let {name,value,files}=e.target
-  if(name=="image"){
-    value=files[0]
-    const reader=new FileReader()
-    reader.onload=function(){
-      form.style.backgroundSize = "100% 100%";
-      form.style.transform = "rotateY(180deg)";
-      
-      setTimeout(()=>{
-      form.style.backgroundImage=`url(${reader.result})`
-        form.style.justifyContent = "end";
-        inputs.forEach((inp)=>{
-        inp.parentElement.style.display = "none";
-      });
-      form.innerHTML = `
-      <div>
-        <button style="transform:rotateY(180deg)">Submit</button>
-      </div>
-      
-      `
-      const btn = document.querySelector("button");
-        console.log(btn)
-        btn.addEventListener("click",design)
-      },1000)
+    if (name === "image") {
+        const file = files ? files[0] : null;
+        if (!file) return;
+        const reader = new FileReader();
 
+        reader.onload = function () {
+            form.style.backgroundSize = "100% 100%";
+            form.style.transform = "rotateY(180deg)";
+            btn.style.transform = "rotatey(180deg)";
+
+            setTimeout(() => {
+                form.style.backgroundImage = `url(${reader.result})`;
+                form.style.justifyContent = "flex-end"; // Align content to the bottom-right
+                form.style.minHeight = "450px";
+                form.style.minWidth = "400px";
+                btn.style.width = "auto";
+                h2.style.display = "none";
+
+                inputs.forEach((inp) => {
+                     inp.removeAttribute("required"); 
+                    if (inp.parentElement) {
+                        inp.parentElement.style.display = "none";
+                    }
+                });
+            }, 1000);
+        };
+
+        reader.readAsDataURL(file);
+        state[name] = file;
+        e.target.value = null; 
+    } else {
+        state[name] = value;
     }
-    reader.readAsDataURL(value)
-    state.setState(name,value)
-      }else{
-        state.setState(name,value)
-      }
-}
+};
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-function handleSubmit(e){
-  e.preventDefault()
-  let {title,category,image,price,description}=state
+        const { title, category, image, price, description } = state;
+        if (!title || !category || !image || !price || !description) {
+            alert("All fields are mandatory.");
+            return;
+        }
 
-  let payload={title,category,image,price,description}
-  console.log(payload);
-  let formData=new FormData()
-  for(let data in payload){
-  formData.append(data,payload[data])
+        const formData = new FormData();
+        for (const key in state) {
+            formData.append(key, state[key]);
+        }
+
+        try {
+            const res = await fetch("http://localhost:5000/api/products/add", {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await res.json();
+
+            if (res.status === 201) {
+                alert(data.message);
+                designConfetti();
+                updateCartCount();
+
+                setTimeout(() => {
+                    history.pushState(null, "", "/home");
+                    renderContent("/home");
+                }, 3000);
+            } else {
+                alert(`Error: ${data.message || 'Something went wrong'}`);
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Something went wrong with the request.");
+        }
+    };
+
+    const designConfetti = () => {
+        const defaults = {
+            spread: 360,
+            ticks: 50,
+            gravity: 0,
+            decay: 0.94,
+            startVelocity: 30,
+            shapes: ["star"],
+            colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"]
+        };
+
+        function shoot() {
+            confetti({ ...defaults, particleCount: 40, scalar: 1.2, shapes: ["star"] });
+            confetti({ ...defaults, particleCount: 10, scalar: 0.75, shapes: ["circle"] });
+        }
+
+        setTimeout(shoot, 0);
+        setTimeout(shoot, 100);
+        setTimeout(shoot, 200);
+    };
+
+    inputs.forEach(input => input.addEventListener('change', handleChange));
+    form.addEventListener('submit', handleSubmit);
 };
 
-(async()=>{
-try {
-    let res=await fetch("http://localhost:5000/api/products/add",{
-    method:"POST",
-    body:formData
-  })
-  console.log(res);
-  let data=await res.json()
-  if(res.status==201){
-  alert(`${data.message}`)
-  history.pushState({},"","home")
-  root.innerHTML = home()
-  }else{
-    alert("Something went wrong")
-  }
-
-} catch (error) {
-  console.log(error);
-  alert("Something went wrong")
-}
-
-})();
-}
-
-select.addEventListener("change", handleChange)
-form.addEventListener('submit',handleSubmit)
-inputs.forEach(input=>{
-  input.addEventListener('change', handleChange)
-})
-textArea.addEventListener('change', handleChange)
-
-const design = ()=>{
-  const defaults = {
-  spread: 360,
-  ticks: 50,
-  gravity: 0,
-  decay: 0.94,
-  startVelocity: 30,
-  shapes: ["star"],
-  colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
-};
-
-function shoot() {
-  confetti({
-    ...defaults,
-    particleCount: 40,
-    scalar: 1.2,
-    shapes: ["star"],
-  });
-
-  confetti({
-    ...defaults,
-    particleCount: 10,
-    scalar: 0.75,
-    shapes: ["circle"],
-  });
-}
-
-setTimeout(shoot, 0);
-setTimeout(shoot, 100);
-setTimeout(shoot, 200);
-
-}
-
-}
-
-export default addProduct
+export default addProduct;

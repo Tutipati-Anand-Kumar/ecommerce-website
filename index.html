@@ -3,22 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>E-commerce App</title>
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-<a href="/login">Login</a>
-<a href="/register">Register</a>
-        <div class="inp">
-                    <span><i class="fa-solid fa-magnifying-glass"></i></span>
-                    <input type="text" placeholder="Search Products" class="in">
+
+    <header class="main-header">
+        <div class="logo"><img src="./asset/brand.png" ></div>
+         <div class="search-container">
+                <input type="text" id="search-input" placeholder="Search Products">
+                <span><i class="fa-solid fa-magnifying-glass"></i></span>
+            </div>
+        <div class="header-actions">
+             <nav class="nav-links">
+                <a href="/home" id="home-link">
+                    <i class="fa-solid fa-house" id="first""></i>
+                    <p>Home</p>
+                </a>
+                <a href="/login" id="login-link">
+                    <i class="fa-solid fa-right-to-bracket" id="second"></i>
+                    <p>Login</p>
+                </a>
+                <a href="/register" id="register-link">
+                    <i class="fa-solid fa-address-card" id="third"></i>
+                    <p>Register</p>
+                </a>
+             </nav>
+        <div id="add"></div>
+            <a href="/cart" id="cart-link">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <div id="cart-count">0</div>
+                <p>Cart</p>
+            </a>
+
+              <a href="/orders" id="orders-link">
+                     <i class="fa-solid fa-bag-shopping"></i>
+                    <p>Orders</p>
+              </a>
+              <a href="/addProduct" id="add-product-link"><h4>➕</h4><p>Add</p></a>
+            </div>
         </div>
-        <div class="products"></div>
+    </header>
 
+    <main id="root"></main>
 
-<div id="root"></div>
-<script src="./index.js" type="module"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+    <script src="./index.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+    
 </body>
 </html>

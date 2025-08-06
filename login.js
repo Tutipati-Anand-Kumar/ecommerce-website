@@ -1,86 +1,75 @@
-import home from "./home.js"
-
-const login=()=>{
+import home, { handleHomeBind, updateCartCount } from "./home.js";
+import renderContent from "./index.js"
+const login = () => {
     return `
- 
-<div class="registerForm">
-    <form class="loginForm">
-        <div>
-            <h1>Login</h1>
-        </div>
-       
-        <div>
-            <input type="email" name="email" placeholder="email">
-            <span><i class="fa-solid fa-envelope"></i></span>
-        </div>
-        <div>
-            <input type="password" name="password" placeholder="password">
-            <span><i class="fa-solid fa-key"></i></span>
-        </div>
+    <div class="form-container">
+        <form class="login-form">
+            <h2>Login</h2>
+            
+            <div class="form-group">
+                <input type="email" name="email" placeholder="email">
+                <span><i class="fa-solid fa-envelope"></i></span>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" placeholder="password">
+                <span><i class="fa-solid fa-key"></i></span>
+            </div>
 
-        <div>
-           <button>Submit</button>
-        </div>
-    </form>
-</div>
-    `
-}
+            <div class="form-actions">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+    `;
+};
 
+export const handleLoginBind = () => {
+    const form = document.querySelector('.login-form');
+    const inputs = form.querySelectorAll('input');
+    const root = document.getElementById("root");
 
-export let handleLoginBind=()=>{
-  const state={
-  setState(name,value){
-    this[name]=value
-  }
-}
-    const form=document.querySelector('form')
-    const inputs=document.querySelectorAll('input')
-    function handleChange(e){
-        let {name,value}=e.target
-        state.setState(name,value)
-}
-function handleSubmit(e){
-e.preventDefault()
-let {email,password}=state    
-let payload={email,password};
-console.log(payload);
-
-(async()=>{
-   try {
-     let res=await fetch("http://localhost:5000/api/auth/login",{
-        method:"POST",
-        body:JSON.stringify(payload),
-        headers:{
-            "Content-Type":"application/json"
+    const state = {
+        setState(name, value) {
+            this[name] = value;
         }
-    })
-    console.log(res);
-    let data=await res.json()
-    console.log(data);
-    if(res.status==200){
-        alert(`${data.message}`)
-        history.pushState({},"","/home")
-        root.innerHTML=home()
-    }else{
-        alert(`${data.message}`)
-
+    };
+    
+    function handleChange(e) {
+        let { name, value } = e.target;
+        state.setState(name, value);        
     }
-   } catch (error) {
-    console.log(error);
-    alert("Something went wrong")
-    
-   }
-    
-    
-})()
 
-}
+    async function handleSubmit(e) {
+        e.preventDefault();
+        let { email, password } = state;
+        
+        try {
+            const res = await fetch("http://localhost:5000/api/auth/login", {
+                method: "POST",
+                body: JSON.stringify({ email, password }),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            const data = await res.json();
+            
+            if (res.status === 200) {
+                alert(data.message);
+                history.pushState({}, "", "/home");
+                renderContent("/home");
+            } else {
+                alert(data.message || "Login failed.");
+            }
+        } catch (error) {
+            console.error("Login Error:", error);
+            alert("Something went wrong with the login request.");
+        }
+    }
 
-inputs.forEach(input=>{
-    input.addEventListener('change',handleChange)
-})
+    inputs.forEach(input => {
+        input.addEventListener('change', handleChange);
+    });
+    form.addEventListener('submit', handleSubmit);
+};
 
-form.addEventListener('submit',handleSubmit)
-}
-
-export default login
+export default login;
