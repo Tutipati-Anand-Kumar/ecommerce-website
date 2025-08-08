@@ -49,7 +49,6 @@ export const handleHomeBind = () => {
             `;
         });
 
-        // After rendering, bind the "Add to Cart" button listeners
         bindAddToCartButtons();
     };
 

@@ -12,19 +12,16 @@ const orders = () => {
 export const handleOrdersBind = () => {
     const ordersList = document.getElementById('orders-list');
     
-    // 1. Retrieve the stored orders
     const storedOrders = JSON.parse(sessionStorage.getItem("orders")) || [];
 
-    // 2. Check if there are any orders to display
     if (storedOrders.length === 0) {
         ordersList.innerHTML = `
             <p class="empty-cart-msg">You have no past orders.</p>
             <a href="/home" class="go-back-link">Continue Shopping</a>
         `;
-        return; // Exit the function if no orders are found
+        return;
     }
 
-    // 3. Dynamically generate and display the orders
     ordersList.innerHTML = storedOrders.map(order => {
         const itemsHtml = order.cart.map(item => `
             <div class="order-item">

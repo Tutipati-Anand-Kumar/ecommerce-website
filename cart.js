@@ -169,16 +169,13 @@ export const handleCartBind = () => {
                     date: new Date().toISOString()
                 };
 
-                // Here you would send the `orderDetails` to your backend
                 console.log("Booking Order:", orderDetails);
                 alert(`Order successfully booked! Total: ₹${total.toFixed(2)}. Payment via: ${selectedPaymentMethod.toUpperCase()}. Delivery to: ${address}`);
 
                 const existingOrders = JSON.parse(sessionStorage.getItem("orders")) || [];
 
-                // Add the new order to the list of existing orders
                 existingOrders.push(orderDetails);
 
-                // Save the updated list of orders back to session storage
                 sessionStorage.setItem("orders", JSON.stringify(existingOrders));
                 
                 sessionStorage.removeItem("cart");

@@ -16,11 +16,11 @@ let addProduct = () => {
                 </div>
                 <div class="form-group">
                     <select name="category" required>
-                        <option value="" disabled selected>Select category</option>
-                        <option value="electronics">Electronics</option>
-                        <option value="mensWear">Mens Wear</option>
-                        <option value="womensWear">Womens wear</option>
-                        <option value="kids">Kids</option>
+                        <option value="" disabled selected id="se">Select category</option>
+                        <option value="electronics" class="op" >Electronics</option>
+                        <option value="mensWear" class="op" >Mens Wear</option>
+                        <option value="womensWear" class="op" >Womens wear</option>
+                        <option value="kids" class="op" >Kids</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -65,7 +65,7 @@ export const handleProductBind = () => {
 
             setTimeout(() => {
                 form.style.backgroundImage = `url(${reader.result})`;
-                form.style.justifyContent = "flex-end"; // Align content to the bottom-right
+                form.style.justifyContent = "flex-end"; 
                 form.style.minHeight = "450px";
                 form.style.minWidth = "400px";
                 btn.style.width = "auto";

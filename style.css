@@ -5,6 +5,12 @@
     box-sizing: border-box;
     font-family: Arial, sans-serif;
 }
+::-webkit-scrollbar{
+    display: none;
+}
+::-webkit-inner-spin-button{
+    display: none;
+}
 
 body {
     height: 100vh;
@@ -128,15 +134,17 @@ body {
     align-items: center;
     font-size: 0.8em;
 }
-
+#top{
+    margin-top: 70px;
+    background-color: #12df42;
+    background-image: url('./asset/home.png'); 
+    height: 150px; 
+    width: 100%; 
+    background-size: 100% 100%;
+}
 #add-product-link {
     text-decoration: none;
     font-size: 1.2em;
-}
-
-/* Main Content Area */
-#root {
-    padding-top: 70px; 
 }
 
 /* Product Cards */
@@ -228,13 +236,67 @@ body {
     backdrop-filter: blur(5px);
     padding: 40px;
     border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(32, 6, 6, 0.662);
     width: 100%;
     max-width: 500px;
     display: flex;
     flex-direction: column;
     gap: 20px;
     transition: all 2s linear;
+    opacity: 0; 
+   transform: scale(0.8) translateY(50px); 
+   animation: formEntrance 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+}
+.form-container form input{
+    height: 30px;
+    width: 100%;
+}
+.form-container form input:focus {
+  outline: none;
+  border-color: #2ecc71;
+  box-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
+  transform: scale(1.02);
+  transition: all 0.3s ease-in-out;
+  
+  border-right: 2px solid #2ecc71; 
+  animation: blink 0.7s infinite step-end;
+  text-shadow: 0 0 5px rgba(46, 204, 113, 0.4); 
+}
+.form-container form select .op{
+    background-color: #b9e80d50;
+    /* background-image: url('./asset/image.png') */
+}
+.form-container form .file-input-group>::file-selector-button{
+    background-color: #0f0f0f33;
+}
+
+.form-container form .file-input-group>::file-selector-button:hover{
+    color: #ffffffbd;
+
+}
+
+.form-container form select #se{
+    background-color: #b81ed762;
+}
+@keyframes blink {
+  50% {
+    border-right-color: transparent;
+  }
+}
+
+@keyframes formEntrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(50px);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(1.05) translateY(-5px); 
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 .form-container h2 {
@@ -467,7 +529,7 @@ body {
 
 .header-actions #orders-link i {
     font-size: 1.5em;
-    color: #007bff; /* Use a different color to distinguish it */
+    color: #007bff; 
 }
 
 .header-actions #cart-link i {
@@ -475,10 +537,7 @@ body {
     color: rgb(230, 88, 173);
 }
 
-/* ... rest of the CSS ... */
-
-/* ... existing styles ... */
-
+/* Styling for the payments page container */
 .payment-methods {
     width: 100%;
     margin-top: 15px;
@@ -520,7 +579,6 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Style for individual order cards */
 .order-card {
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -556,7 +614,6 @@ body {
     color: #555;
 }
 
-/* Style for each item within the order */
 .order-item {
     display: flex;
     align-items: center;
